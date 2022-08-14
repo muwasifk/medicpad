@@ -1,0 +1,248 @@
+{%load static%}
+
+{% block content %}
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href="{% static 'css\output.css' %}" rel="stylesheet">
+    <link href="{% static 'css\particles.css' %}" rel="stylesheet">
+
+    <script src="{% static 'javascript\tailwind.config.js' %}"></script>
+    <script src="{% static 'javascript\typewrite.js' %}"></script>
+
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css" />
+    <script src = "https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+
+</head>
+
+
+<h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate pt-10">Hey {{request.user.profile.name}}</h2> <a href = "{% url 'logout' %}" class = "font-bold text-blue-600"> Logout </a>
+
+<div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+    <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
+        <li class="mr-2" role="presentation">
+            <button class="inline-block p-4 rounded-t-lg border-b-2 text-blue-600 hover:text-blue-600 dark:text-blue-500 dark:hover:text-blue-500 border-blue-600 dark:border-blue-500" id="profile-tab" data-tabs-target="#information" type="button" role="tab" aria-controls="information" aria-selected="true">Information</button>
+        </li>
+        <li class="mr-2" role="presentation">
+            <button class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 dark:border-gray-700" id="dashboard-tab" data-tabs-target="#edit" type="button" role="tab" aria-controls="edit" aria-selected="false">Edit</button>
+        </li>
+        <li class="mr-2" role="presentation">
+            <button class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 dark:border-gray-700" id="settings-tab" data-tabs-target="#history" type="button" role="tab" aria-controls="history" aria-selected="false">History</button>
+        </li>
+        <li role="mr-2 presentation">
+            <button class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 dark:border-gray-700" id="contacts-tab" data-tabs-target="#upcoming" type="button" role="tab" aria-controls="upcoming" aria-selected="false">Upcoming</button>
+        </li>
+        <li role="presentation">
+            <button class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 dark:border-gray-700" id="contacts-tab" data-tabs-target="#statistics" type="button" role="tab" aria-controls="statistics" aria-selected="false">Statistics</button>
+        </li>
+    </ul>
+</div>
+<div id="myTabContent">
+    <div class="p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="information" role="tabpanel" aria-labelledby="profile-tab">
+        <b>General Information:</b> <br> <br> 
+    Height: {{request.user.profile.height}} <br><br> 
+    Weight: {{request.user.profile.weight}} <br> <br> 
+    Allergies: 
+    {% for allergy in request.user.profile.allergies %}
+    {{allergy}}
+    {% endfor %} <br> <br> 
+    Medications: 
+    {% for med in request.user.profile.medications %}
+    {{med}}
+    {% endfor %} <br> <br> 
+    Diagnoses: 
+    {% for d in request.user.profile.diagnoses %}
+    {{d}}
+    {% endfor %} <br><br> 
+    Location: {{request.user.profile.address}}, {{request.user.profile.postalcode}}, {{request.user.profile.city}}, {{request.user.profile.province}}, Canada
+    </div>
+    <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="edit" role="tabpanel" aria-labelledby="dashboard-tab">
+        <div class="mt-10 sm:mt-0">
+            <div class="md:grid md:grid-cols-3 md:gap-6">
+              <div class="md:col-span-1">
+                <div class="px-4 sm:px-0">
+                  <h3 class="text-lg font-medium leading-6 text-gray-900">Personal Information</h3>
+                  <p class="mt-1 text-sm text-gray-600">Use a permanent address where you can receive mail.</p>
+                </div>
+              </div>
+              <div class="mt-5 md:mt-0 md:col-span-2">
+                <form action="#" method="POST">
+                    {%csrf_token%}
+                  <div class="shadow overflow-hidden sm:rounded-md">
+                    <div class="px-4 py-5 bg-white sm:p-6">
+                      <div class="grid grid-cols-6 gap-6">
+                        <div class="col-span-6 sm:col-span-4">
+                          <label for="first-name" class="block text-sm font-medium text-gray-700">Full name</label>
+                          <input type="text" name="fullname" id="fullname" autocomplete="given-name" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+                        
+                        <br>
+
+                        <div class="col-span-6 sm:col-span-6 lg:col-span-2">
+                            <label for="city" class="block text-sm font-medium text-gray-700">Height</label>
+                            <input type="text" name="height" id="height" autocomplete="address-level2" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                          </div>
+            
+                          <div class="col-span-6 sm:col-span-3 lg:col-span-2">
+                            <label for="region" class="block text-sm font-medium text-gray-700">Weight</label>
+                            <input type="text" name="weight" id="weight" autocomplete="address-level1" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                          </div>
+                        <br>
+                          <div class="col-span-6 sm:col-span-6 lg:col-span-2">
+                            <label for="city" class="block text-sm font-medium text-gray-700">Allergy</label>
+                            <input type="text" name="allergy" id="allergy" autocomplete="address-level2" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                          </div>
+            
+                          <div class="col-span-6 sm:col-span-3 lg:col-span-2">
+                            <label for="region" class="block text-sm font-medium text-gray-700">Medication</label>
+                            <input type="text" name="medication" id="medication" autocomplete="address-level1" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                          </div>
+            
+                          <div class="col-span-6 sm:col-span-3 lg:col-span-2">
+                            <label for="postal-code" class="block text-sm font-medium text-gray-700">Diagnosis</label>
+                            <input type="text" name="diagnosis" id="diagnosis" autocomplete="postal-code" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                          </div>
+          
+                        <div class="col-span-6 sm:col-span-3">
+                          <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
+                          <select id="country" name="country" autocomplete="country-name" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option>Canada</option>
+                          </select>
+                        </div>
+          
+                        <div class="col-span-6">
+                          <label for="street-address" class="block text-sm font-medium text-gray-700">Street address</label>
+                          <input type="text" name="street" id="street" autocomplete="street-address" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+          
+                        <div class="col-span-6 sm:col-span-6 lg:col-span-2">
+                          <label for="city" class="block text-sm font-medium text-gray-700">City</label>
+                          <input type="text" name="city" id="city" autocomplete="address-level2" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+          
+                        <div class="col-span-6 sm:col-span-3 lg:col-span-2">
+                          <label for="region" class="block text-sm font-medium text-gray-700">State / Province</label>
+                          <input type="text" name="province" id="province" autocomplete="address-level1" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+          
+                        <div class="col-span-6 sm:col-span-3 lg:col-span-2">
+                          <label for="postal-code" class="block text-sm font-medium text-gray-700">ZIP / Postal code</label>
+                          <input type="text" name="postalcode" id="postalcode" autocomplete="postal-code" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                      <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Save</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+    </div>
+    <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="history" role="tabpanel" aria-labelledby="settings-tab">
+        <form method = "POST">
+            {% csrf_token %}
+        <div class = "mb-2">
+            <input type="text" name = "date" id="small-input" placeholder = "Date (DD/MM/YYYY)" class="block p-2 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        </div>
+        <div class="mb-6">
+            <input type="text" name = "notesc" id="large-input" placeholder = "Notes" class="block p-4 w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        </div>
+        <button type="submit" name = "submit" class="mb-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+        <button type="submit" name = "qr" class="mb-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add from QR</button>
+        </form>
+        {% for entry in request.user.profile.history %} 
+        <a href="#" class="m-auto block p-6 mb-2 w-3/4 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{entry.1}} (GMT)</h5>
+            <p class="font-normal text-gray-700 dark:text-gray-400">{{entry.2}}</p>
+        </a>
+      {% endfor %}
+    </div>
+    <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="upcoming" role="tabpanel" aria-labelledby="contacts-tab">
+    
+      <form method = "POST">
+        {% csrf_token %}
+      <div class="relative">
+        <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+          <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+        </div>
+        <input datepicker type="text" name = "date" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+      </div>
+      
+      <div class="col-span-6 sm:col-span-6 lg:col-span-2">
+        <input type="text" name="aptype" id="city" placeholder = "Appointment Type" autocomplete="address-level2" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+      </div>
+      <button type="submit" name = "newap" class="mb-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+      </form>
+      {% for entry in request.user.profile.upcoming %} 
+        <a href="#" class="m-auto block p-6 mb-2 w-3/4 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{entry.1}}</h5>
+            <p class="font-normal text-gray-700 dark:text-gray-400">{{entry.2}}</p>
+        </a>
+      {% endfor %}
+    
+    
+    </div>
+
+    
+    <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="statistics" role="tabpanel" aria-labelledby="contacts-tab">
+      Recent Appointment Timings: 
+      <div id="container" style="width: 75%;" class = "m-auto">
+        <canvas id="pie-chart"></canvas>
+      </div>
+    
+      <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+      <script>
+    
+        var config = {
+          type: 'pie',
+          data: {
+            datasets: [{
+              data: {{ hdata|safe }},
+              backgroundColor: ['33658A', 'B892FF','BEE3DB','FAB3A9','EA9E8D' ],
+              label: 'Past Visit Timings'
+            }],
+            labels: {{ hlabels|safe }}
+          },
+          options: {
+            responsive: true
+          }
+        };
+    
+        window.onload = function() {
+          var ctx = document.getElementById('pie-chart').getContext('2d');
+          window.myPie = new Chart(ctx, config);
+        };
+    
+      </script>
+
+
+    </div>
+</div>
+
+<script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
+<script src="https://unpkg.com/flowbite@1.5.2/dist/datepicker.js"></script>
+
+{% endblock content %}

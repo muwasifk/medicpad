@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+{%load static%}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href="{% static 'css\output.css' %}" rel="stylesheet" >
+    <link href = "{% static 'css\particles.css' %}" rel = "stylesheet" > 
+    
+    <script src = "{% static 'javascript\tailwind.config.js' %}"></script>
+    <script src = "{% static 'javascript\typewrite.js' %}"></script>
+    
+    
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                  }
+            }
+        }
+    </script>
+
+
+</head>
+
+<body>
+    <div class="h-screen pb-14 bg-right bg-cover" style="background-image:url('bg.svg');">
+        <!--Nav-->
+        <div class="w-full container mx-auto p-6">
+                
+            <div class="w-full flex items-center justify-between">
+                <a class="flex items-center text-indigo-400 no-underline hover:no-underline font-bold text-2xl lg:text-4xl"  href="#"> 
+                    <img src = "{% static 'images/hospital.svg' %}" class = "w-10 h-10"> MedicPad
+                </a>
+                
+                <div class="flex w-1/2 justify-end content-center">		
+                    <a href="https://twitter.com/medicpad" rel="noopener noreferrer" target="_blank" class="ml-3 text-gray-500 text-blue-300 no-underline hover:text-indigo-800">
+                        <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text" viewBox="0 0 32 32">
+                          <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+                        </svg>
+                      </a>
+                      <a href="https://instagram.com/medicpad" rel="noopener noreferrer" target="_blank" class="ml-3 text-gray-500 text-blue-300 no-underline hover:text-indigo-800">
+                        <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10" viewBox="0 0 32 32">
+                          <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                          <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
+                        </svg>
+                      </a>
+                      
+                </div>
+                
+            </div>
+    
+        </div>
+    {% block content %}
+    {% endblock content %}
+</body>
