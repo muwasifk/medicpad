@@ -1,0 +1,17 @@
+Medicpad
+======== 
+
+This project was submitted and won 3rd place at The Queen's School of Computing Programming Challenge (2022). 
+
+The premise of the project is a website that allows for easier communication between patients and doctors and a dashboard for patients for all their medical needs. There is also a QR code system which allows for patients to enter their existing medical history easily into the new system. 
+
+The project was designed using 
+
+	Python (Django)
+	Tailwind.css
+	Charts.js 
+	Flowbite 
+
+To run the program, simply enter the `mysite` directory and run
+
+	`python manage.py runserver` 
